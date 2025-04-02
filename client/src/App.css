@@ -1,0 +1,40 @@
+.App,.main {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  gap: 1.4rem;
+  padding: 1.4rem;
+  height:90vh;
+}
+.rowflex{
+  display: flex;
+  flex-direction: row;
+}
+.colflex{
+    display: flex;
+    flex-direction: column;
+}
+.column {
+  padding: 1.4rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color:aliceblue;
+  background-color: transparent;
+}
+
+.explanation {
+  flex: 3;
+  text-align: left;
+}
+
+.code-block {
+  flex: 5;
+  font-family: monospace;
+}
+
+.extra-content {
+  flex: 2;
+  text-align: left;
+}
