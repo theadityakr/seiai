@@ -1,19 +1,21 @@
 package com.seiai.server.listener;
 
+import com.seiai.server.services.ScreenshotService;
 import com.seiai.server.util.ScreenshotUtil;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 @Component
 public class GlobalKeyListener {
 
-    private final ApiService apiService;
+    private final ScreenshotService screenshotService;
 
-    public GlobalKeyListener(ApiService apiService) {
-        this.apiService = apiService;
+    public GlobalKeyListener(ScreenshotService screenshotService) {
+        this.screenshotService = screenshotService;
     }
 
     @PostConstruct
@@ -25,15 +27,16 @@ public class GlobalKeyListener {
                     .addKeyEventDispatcher(event -> {
                         if (event.getID() == KeyEvent.KEY_PRESSED) {
                             if (event.isControlDown() &&
-                                    event.isShiftDown() &&
-                                    event.getKeyCode() == KeyEvent.VK_S) {
+                                    event.isAltDown() &&
+                                    event.getKeyCode() == KeyEvent.VK_Q) {
                                 try {
-                                    byte[] screenshot = ScreenshotUtil.captureScreenshot();
-                                    apiService.uploadScreenshot(screenshot);
+                                    System.out.println("KEy pRessed");
+                                    MultipartFile screenshot = ScreenshotUtil.captureScreenshot();
+                                    screenshotService.uploadScreenshot(screenshot);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                return true; // consume the event
+                                return true;
                             }
                         }
                         return false;
