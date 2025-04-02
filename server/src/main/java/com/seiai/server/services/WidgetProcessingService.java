@@ -5,12 +5,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seiai.server.domain.Widget;
 import com.seiai.server.model.AzureOpenAIResponse;
 import com.seiai.server.repositories.WidgetRepository;
+import com.seiai.server.services.database.WidgetUpdateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class WidgetProcessingService {
+
+    @Autowired
+    private WidgetUpdateService widgetUpdateService;
 
     private final WidgetRepository widgetRepository;
     private final ObjectMapper objectMapper;
@@ -33,10 +39,13 @@ public class WidgetProcessingService {
                     .extra((String) parsedResponse.get("extra"))
                     .build();
             widgetRepository.save(widget);
+            widgetUpdateService.sendWidgetUpdate(ipAddress);
+
+
         } catch (JsonProcessingException e) {
             System.err.println("Failed to parse response message: " + e.getMessage());
-
         }
+
     }
 
     private Map<String, Object> parseResponseMessage(String responseMessage) throws JsonProcessingException {
