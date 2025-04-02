@@ -47,9 +47,9 @@ body {
   margin: 0;
   padding: 0;
   overflow: -moz-hidden-unscrollable;
-  overflow: hidden;
+  /* overflow: hidden; */
   height: 100vh;
-  width: 100vw;
+  width: 99vw;
 }
 
 h2{
