@@ -1,4 +1,4 @@
-.App,.main {
+.App, .main {
   text-align: center;
 }
 
@@ -6,21 +6,25 @@
   display: flex;
   gap: 1.4rem;
   padding: 1.4rem;
-  height:90vh;
+  height: 90vh;
+  width: 93vw;
 }
-.rowflex{
+
+.rowflex {
   display: flex;
   flex-direction: row;
 }
-.colflex{
-    display: flex;
-    flex-direction: column;
+
+.colflex {
+  display: flex;
+  flex-direction: column;
 }
+
 .column {
   padding: 1.4rem;
   border: 1px solid #ddd;
   border-radius: 6px;
-  color:aliceblue;
+  color: aliceblue;
   background-color: transparent;
 }
 
@@ -39,9 +43,57 @@
   text-align: left;
 }
 
-p{
+p {
   font-size: 14px;
-  font-weight:300;
+  font-weight: 300;
   word-wrap: break-word;
   white-space: break-spaces;
+}
+
+/* Tablet view (typically 768px and below) */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .rowflex {
+    flex-direction: column;
+  }
+  
+  .code-block, 
+  .extra-content {
+    flex: 1;
+    width: 100%;
+  }
+  
+  /* Stack code block and extra content vertically */
+  .colflex {
+    flex-direction: column;
+  }
+}
+
+/* Mobile view (typically 480px and below) */
+@media (max-width: 480px) {
+  .container {
+    padding: 0.7rem;
+    width: 95vw;
+  }
+  
+  .column {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Ensure all columns stack vertically */
+  .rowflex, .colflex {
+    flex-direction: column;
+  }
+  
+  .explanation,
+  .code-block,
+  .extra-content {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 }

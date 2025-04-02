@@ -27,7 +27,7 @@ const CodeBlockColumn: React.FC = () => {
             language={language}
             style={atomDark}
             showLineNumbers={showLineNumbers}
-            wrapLongLines
+            wrapLongLines = {true}
 >
             {currentWidget.code}
 </SyntaxHighlighter>
