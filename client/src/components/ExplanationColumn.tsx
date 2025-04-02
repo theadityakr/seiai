@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useContext } from 'react';
+import { WidgetContext } from '../services/RealTimeUpdates';
 
 const ExplanationColumn: React.FC = () => {
+  const { currentWidget } = useContext(WidgetContext);
+
   return (
     <div className="column explanation">
       <h2>Explanation</h2>
-      <p>This section provides an explanation of the code.</p>
+      {currentWidget ? (
+        <p>{currentWidget.explanation}</p>
+      ) : (
+        <p>No explanation available yet</p>
+      )}
     </div>
   );
 };
