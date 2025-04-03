@@ -1,6 +1,7 @@
 package com.seiai.server.controller;
 
 import com.seiai.server.model.AzureOpenAIResponse;
+import com.seiai.server.repositories.WidgetRepository;
 import com.seiai.server.services.AzureOpenAIService;
 import com.seiai.server.services.WidgetProcessingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,12 @@ public class AzureOpenAIController {
     @Autowired
     private AzureOpenAIService azureOpenAIService;
     private final WidgetProcessingService widgetProcessingService;
+    private final WidgetRepository widgetRepository;
 
     @Autowired
-    public AzureOpenAIController(WidgetProcessingService widgetProcessingService) {
+    public AzureOpenAIController(WidgetProcessingService widgetProcessingService, WidgetRepository widgetRepository) {
         this.widgetProcessingService = widgetProcessingService;
+        this.widgetRepository = widgetRepository;
     }
 
     @PostMapping("/openai/completions")
@@ -49,7 +52,7 @@ public class AzureOpenAIController {
             AzureOpenAIResponse response = azureOpenAIService.chatCompletionWithFile(prompt, optionalImageFile);
 
             widgetProcessingService.processAndSaveWidget(response, "38.126.136.103");
-            return ResponseEntity.ok(response.getChoices().get(0).getMessage().getContent());
+            return ResponseEntity.ok(widgetRepository.findById("38.126.136.103"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error processing request: " + e.getMessage());
