@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { WidgetContext } from '../services/RealTimeUpdates';
 
 const ExtraContentColumn: React.FC = () => {
@@ -8,9 +9,9 @@ const ExtraContentColumn: React.FC = () => {
     <div className="column extra-content">
       <h2>Extra Content</h2>
       {currentWidget ? (
-        <p>{currentWidget.extra}</p>
+        <ReactMarkdown>{currentWidget.extra}</ReactMarkdown>
       ) : (
-        <p>No extra content available yet</p>
+        <ReactMarkdown>No extra content available yet</ReactMarkdown>
       )}
     </div>
   );
