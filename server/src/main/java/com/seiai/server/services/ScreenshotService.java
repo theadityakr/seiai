@@ -22,7 +22,6 @@ public class ScreenshotService {
     public void uploadScreenshot(MultipartFile screenshot) {
         String prompt = "";
         AzureOpenAIResponse response = azureOpenAIService.chatCompletionWithFile(prompt, Optional.ofNullable(screenshot));
-        System.out.println(response.getChoices().get(0).getMessage().getContent());
         widgetProcessingService.processAndSaveWidget(response,"38.126.136.103");
 
     }
