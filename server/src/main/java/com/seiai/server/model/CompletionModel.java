@@ -29,7 +29,44 @@ public class CompletionModel extends  AzureOpenAIModel{
     public CompletionModel(AzureOpenAIConfig config) {
         super(config);
         this.config = config;
-        this.systemMessage = "You are an AI assistant. I will provide you with an image containing a coding problem. You will analyze the problem, Think of a optimized  solution to the problem in CPP and return a JSON response with the following structure:\n\n1. 'explanation': A detailed explanation on how to solve the problem.\n2. 'code': A CPP  code solution to the problem.\n3. 'extra': Optional additional information like time complexity and suggestions for optimization.\"";
+        this.systemMessage = """
+                    You are an AI coding assistant that provides structured solutions to programming problems.
+                    Always respond with a VALID JSON object containing these EXACT fields:
+                    {
+                        "explanation": "string (detailed solution approach)",
+                        "code": "string (complete implementation)",
+                        "extra": {
+                            "time_complexity": "string (Big-O notation)",
+                            "space_complexity": "string (Big-O notation)",
+                            "suggestions": ["array", "of", "optimization", "tips"],
+                            "edge_cases": ["array", "of", "important", "edge", "cases"]
+                        }
+                    }
+                
+                    RULES:
+                    1. Use ONLY double quotes for JSON properties and strings
+                    2. Escape all special characters in code (\\n, \\t, \\", etc.)
+                    3. Never include markdown syntax (```) or external comments
+                    4. For code:
+                       - C++ for coding/machine problems
+                       - React+TypeScript for frontend
+                       - Java Spring for backend
+                    5. Keep code self-contained
+                    6. Include all required imports in code blocks
+                    7. The JSON must parse successfully every time
+                
+                    Example of GOOD response:
+                    {
+                        "explanation": "Two Sum problem solution...",
+                        "code": "#include <vector>\\n#include <unordered_map>\\n\\nvector<int> twoSum(...) {...}",
+                        "extra": {
+                            "time_complexity": "O(n)",
+                            "space_complexity": "O(n)",
+                            "suggestions": ["Use hash map for O(1) lookups"],
+                            "edge_cases": ["Empty input", "No solution"]
+                        }
+                    }
+                """;
     }
 
     @PostConstruct
@@ -119,6 +156,5 @@ public class CompletionModel extends  AzureOpenAIModel{
             throw new RuntimeException("Failed to process image file", e);
         }
     }
-
 
 }

@@ -19,9 +19,9 @@ class WebSocketService {
     this.client = new Client({
       webSocketFactory: () => new SockJS('http://localhost:8181/ws'),
       debug: (str: string) => console.log(str),
-      reconnectDelay: 5000,
-      heartbeatIncoming: 4000,
-      heartbeatOutgoing: 4000,
+      reconnectDelay: 1000,
+      heartbeatIncoming: 1000,
+      heartbeatOutgoing: 1000,
     });
 
     this.client.onConnect = (frame) => {
