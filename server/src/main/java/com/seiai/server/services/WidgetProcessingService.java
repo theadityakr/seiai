@@ -18,6 +18,9 @@ public class WidgetProcessingService {
     @Autowired
     private WidgetUpdateService widgetUpdateService;
 
+    @Autowired
+    private OverlayService overlayService;
+
     private final WidgetRepository widgetRepository;
     private final ObjectMapper objectMapper;
 
@@ -67,6 +70,8 @@ public class WidgetProcessingService {
             Widget widget = widgetBuilder.build();
             widgetRepository.save(widget);
             widgetUpdateService.sendWidgetUpdate(ipAddress);
+            overlayService.updateWidget(ipAddress);
+
         } catch (Exception e) {
             System.err.println("Failed to save/send widget update: " + e.getMessage());
         }

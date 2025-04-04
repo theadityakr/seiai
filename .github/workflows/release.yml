@@ -1,0 +1,63 @@
+name: Release Latest Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/*.yml'
+      - 'src-tauri/target/release/bundle/msi/*.msi'
+      - 'src-tauri/target/release/bundle/nsis/*.exe'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: List files to be released
+      id: list_files
+      run: |
+        echo "MSI files:"
+        ls -la src-tauri/target/release/bundle/msi/*.msi || true
+        echo "EXE files:"
+        ls -la src-tauri/target/release/bundle/nsis/*.exe || true
+
+    - name: Find latest MSI and EXE
+      id: find_latest
+      run: |
+        # Find latest MSI (sorted by version)
+        LATEST_MSI=$(ls -1 src-tauri/target/release/bundle/msi/DevMetrics_*.msi | sort -V | tail -n1)
+        # Find latest EXE (sorted by version)
+        LATEST_EXE=$(ls -1 src-tauri/target/release/bundle/nsis/DevMetrics_*-setup.exe | sort -V | tail -n1)
+        
+        echo "Selected MSI: $LATEST_MSI"
+        echo "Selected EXE: $LATEST_EXE"
+        
+        echo "LATEST_MSI=$LATEST_MSI" >> $GITHUB_ENV
+        echo "LATEST_EXE=$LATEST_EXE" >> $GITHUB_ENV
+
+    - name: Generate tag name
+      id: generate_tag
+      run: |
+        TAG_NAME="Release-$(date +'%Y%m%d-%H%M%S')"
+        echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
+    - name: Create Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ env.TAG_NAME }}
+        name: "${{ env.TAG_NAME }}"
+        body: |
+          Automated release containing latest MSI and EXE files.
+        files: |
+          ${{ env.LATEST_MSI }}
+          ${{ env.LATEST_EXE }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
