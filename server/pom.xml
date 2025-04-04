@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.seiai</groupId>
 	<artifactId>server</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>server</name>
 	<description>server for seiai</description>
 	<url/>
@@ -122,6 +122,38 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.akathist.maven.plugins.launch4j</groupId>
+				<artifactId>launch4j-maven-plugin</artifactId>
+				<version>2.1.2</version> <!-- Check for the latest version -->
+				<executions>
+					<execution>
+						<id>l4j-clui</id>
+						<phase>package</phase> <!-- Binds to the 'package' phase -->
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<headerType>gui</headerType> <!-- Use 'console' for CLI apps -->
+							<outfile>${project.build.directory}/Seiai-${project.version}.exe</outfile>
+							<jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+							<errTitle>My ServerApp Error</errTitle>
+							<classPath>
+								<mainClass>com.seiai.server.ServerApplication</mainClass> <!-- Replace with your main class -->
+							</classPath>
+							<icon>src/main/resources/favicon.ico</icon> <!-- Optional: Add an icon -->
+							<jre>
+								<minVersion>17</minVersion> <!-- Match your Java version -->
+								<maxVersion></maxVersion>
+<!--								<path>./jre17</path>-->
+<!--								<bundledJre64Bit>true</bundledJre64Bit> &lt;!&ndash; Auto-detect JRE &ndash;&gt;-->
+<!--								<jdkPreference>jdkOnly</jdkPreference>-->
+<!--								<runtimeBits>64</runtimeBits> &lt;!&ndash; Force 64-bit &ndash;&gt;-->
+							</jre>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

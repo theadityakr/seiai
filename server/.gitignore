@@ -1,5 +1,7 @@
 HELP.md
-target/
+/jre17/*
+/target/*
+!/target/*.exe
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
