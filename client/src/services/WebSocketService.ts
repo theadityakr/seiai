@@ -17,7 +17,7 @@ class WebSocketService {
 
   constructor() {
     this.client = new Client({
-      webSocketFactory: () => new SockJS('http://localhost:8181/ws'),
+      webSocketFactory: () => new SockJS('https://4854-38-126-136-103.ngrok-free.app/ws'),
       debug: (str: string) => console.log(str),
       reconnectDelay: 1000,
       heartbeatIncoming: 1000,
